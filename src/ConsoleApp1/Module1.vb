@@ -101,7 +101,7 @@ Module RansacAlignment
     ''' <summary>
     ''' 主函数，用于演示如何使用对齐功能
     ''' </summary>
-    Public Sub Main()
+    Public Sub Run()
         ' --- 模拟数据 ---
         ' 假设我们有两张切片的细胞信息，并且已经完成了特征匹配，点的顺序是对应的。
 
