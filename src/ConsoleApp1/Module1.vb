@@ -169,10 +169,10 @@ Module RansacAlignment
             Console.WriteLine("--- 对齐成功，应用变换 ---")
 
             ' 5. 应用变换到源点云，以验证结果
-            Dim sourcePointsMat As New Matrix(Of Single)(sourceCells.Count, 1, DepthType.Cv32F, 2)
+            Dim sourcePointsMat As New Matrix(Of Single)(sourceCells.Count, 2)
             For i As Integer = 0 To sourceCells.Count - 1
-                sourcePointsMat.Data(i, 0) = sourceCells(i).X
-                sourcePointsMat.Data(i, 1) = sourceCells(i).Y
+                sourcePointsMat(i, 0) = sourceCells(i).X
+                sourcePointsMat(i, 1) = sourceCells(i).Y
             Next
 
             Dim transformedPointsMat As New Mat()
@@ -192,11 +192,11 @@ Module RansacAlignment
             Console.WriteLine(vbCrLf & "变换前后对比 (仅显示前几个点):")
             For i As Integer = 0 To Math.Min(4, sourceCells.Count - 1)
                 Dim originalPoint As String = $"({sourceCells(i).X:F1}, {sourceCells(i).Y:F1})"
-                Dim transformedX As Single = transformedMatrix.Data(i, 0)
-                Dim transformedY As Single = transformedMatrix.Data(i, 1)
+                Dim transformedX As Single = transformedMatrix(i, 0)
+                Dim transformedY As Single = transformedMatrix(i, 1)
                 Dim transformedPoint As String = $"({transformedX:F1}, {transformedY:F1})"
                 Dim targetPoint As String = $"({destinationCells(i).X:F1}, {destinationCells(i).Y:F1})"
-                Dim isInlier As String = If(inlierMaskMatrix.Data(i, 0) > 0, "内点", "异常值")
+                Dim isInlier As String = If(inlierMaskMatrix(i, 0) > 0, "内点", "异常值")
                 Console.WriteLine($"点 {i}: 源 {originalPoint} -> 变换后 {transformedPoint} | 目标 {targetPoint} ({isInlier})")
             Next
         End If
