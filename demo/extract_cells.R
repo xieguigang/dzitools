@@ -4,12 +4,15 @@ require(filter);
 imports "singleCell" from "Erica";
 imports "machineVision" from "signalKit";
 
-let snapshot = readImage(relative_work("100_244.bmp")) |> filter::adjust_contrast(-10);
+let bitmap_file = ?"--bitmap" || stop("no bitmap image input!");
+let workdir = dirname(bitmap_file);
+
+let snapshot = readImage(bitmap_file) |> filter::adjust_contrast(-1);
 let bin = machineVision::ostu(snapshot, flip = FALSE,
                             factor =0.8);
 
 print(snapshot);
-bitmap(snapshot, file = relative_work("cells_grayscale3.bmp"));
+bitmap(bin, file = file.path(workdir, `cells_bin_${basename(bitmap_file)}.bmp`));
 
 let cells = bin |> singleCell::HE_cells(is.binarized = TRUE,
                             flip = FALSE,
@@ -20,9 +23,8 @@ let cells = bin |> singleCell::HE_cells(is.binarized = TRUE,
 
 print(as.data.frame(cells));
 
-write.csv(as.data.frame(cells), file = relative_work("cells3.csv"));
+write.csv(as.data.frame(cells), file = file.path(workdir, `cells_bin_${basename(bitmap_file)}.csv`));
 
-bitmap(bin, file = relative_work("cells_bin3.bmp"));
-bitmap(file = relative_work("cells3.png"), size = [6400,2700]) {
+bitmap(file = file.path(workdir, `cells_plot_${basename(bitmap_file)}.png`), size = [6400,2700]) {
     plot(cells, scatter = TRUE);
 }
