@@ -7,12 +7,13 @@ imports "machineVision" from "signalKit";
 let bitmap_file = ?"--bitmap" || stop("no bitmap image input!");
 let workdir = dirname(bitmap_file);
 
-let snapshot = readImage(bitmap_file) |> filter::adjust_contrast(-1);
+let snapshot = readImage(bitmap_file) |> filter::RTCP_gray();
 let bin = machineVision::ostu(snapshot, flip = FALSE,
                             factor =0.8);
 
 print(snapshot);
-bitmap(bin, file = file.path(workdir, `cells_bin_${basename(bitmap_file)}.bmp`));
+bitmap(snapshot, file = file.path(workdir, basename(bitmap_file), "cells_grayscale.bmp"));
+bitmap(bin, file = file.path(workdir, basename(bitmap_file), "cells_bin.bmp"));
 
 let cells = bin |> singleCell::HE_cells(is.binarized = TRUE,
                             flip = FALSE,
@@ -23,8 +24,8 @@ let cells = bin |> singleCell::HE_cells(is.binarized = TRUE,
 
 print(as.data.frame(cells));
 
-write.csv(as.data.frame(cells), file = file.path(workdir, `cells_bin_${basename(bitmap_file)}.csv`));
+write.csv(as.data.frame(cells), file = file.path(workdir, basename(bitmap_file), "cells_bin.csv"));
 
-bitmap(file = file.path(workdir, `cells_plot_${basename(bitmap_file)}.png`), size = [6400,2700]) {
+bitmap(file = file.path(workdir, basename(bitmap_file), "cells_plot.png"), size = [6400,2700]) {
     plot(cells, scatter = TRUE);
 }
