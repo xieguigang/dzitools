@@ -33,9 +33,9 @@ write.csv(aligned, file = file.path(dir, "RANSAC", "aligned.csv"), row.names = F
 writeLines(JSON::json_encode(t), con = file.path(dir, "RANSAC", "transform.json"));
 
 bitmap(file = file.path(dir, "RANSAC", "unaligned.png"), size = [3000,2000]) {
-    plot(as.numeric(un_aligned$x),as.numeric(un_aligned$y), class = un_aligned$class, fill = "white",point_size= 5, colors = "paper");
+    plot(as.numeric(un_aligned$x),as.numeric(un_aligned$y), class = un_aligned$class, fill = "white",point_size= 9, colors = "paper");
 }
 
 bitmap(file = file.path(dir, "RANSAC", "aligned.png"), size = [3000,2000]) {
-    plot(as.numeric(aligned$x),as.numeric(aligned$y), class = aligned$class, fill = "white",point_size= 5, colors = "paper");
+    plot(as.numeric(aligned$x),as.numeric(aligned$y), class = aligned$class, fill = "white",point_size= 9, colors = "paper");
 }
