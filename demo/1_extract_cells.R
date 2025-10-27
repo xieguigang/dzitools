@@ -9,15 +9,15 @@ let workdir = dirname(bitmap_file);
 
 let snapshot = readImage(bitmap_file) |> filter::RTCP_gray();
 let bin = machineVision::ostu(snapshot, flip = FALSE,
-                            factor =0.8);
+                            factor =0.85);
 
 print(snapshot);
 bitmap(snapshot, file = file.path(workdir, basename(bitmap_file), "cells_grayscale.bmp"));
 bitmap(bin, file = file.path(workdir, basename(bitmap_file), "cells_bin.bmp"));
 
-let cells = bin |> singleCell::HE_cells(is.binarized = TRUE,
+let cells = snapshot |> singleCell::HE_cells(
                             flip = FALSE,
-                            ostu.factor = 0.7,
+                            ostu.factor = 0.85,
                             offset = NULL,
                             noise = 0.25,
                             moran.knn = 32);

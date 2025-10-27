@@ -13,7 +13,7 @@ subject = read.csv(subject, row.names = 1, check.names = FALSE);
 map = polygon2D(as.numeric(map$physical_x), as.numeric(map$physical_y));
 subject = polygon2D(as.numeric(subject$physical_x), as.numeric(subject$physical_y));
 
-let t = RANSAC(map, subject, iterations= 100000, threshold  = 0.05);
+let t = RANSAC(map, subject, iterations= 100000, threshold  = 1);
 
 str(t);
 
