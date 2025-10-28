@@ -15,4 +15,10 @@ let subject = read.cells(relative_work("capture/cells_bin.csv"));
 
 map = map |> singleCell::geo_transform(t);
 
-let assign = hungarian_assignment(map, subject);
+let assign = greedy_matches(map, subject);
+
+assign = as.data.frame(assign);
+
+print(assign);
+
+write.csv(assign, file = relative_work("RANSAC/cell_matches.csv"), row.names = FALSE);
