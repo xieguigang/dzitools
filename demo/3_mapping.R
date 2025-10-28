@@ -22,3 +22,7 @@ assign = as.data.frame(assign);
 print(assign);
 
 write.csv(assign, file = relative_work("RANSAC/cell_matches.csv"), row.names = FALSE);
+
+bitmap(file = relative_work("RANSAC/cell_matches.png"), size = [2700,2100]) {
+    plot(assign, slide1 = map, slide2 = subject);
+}
